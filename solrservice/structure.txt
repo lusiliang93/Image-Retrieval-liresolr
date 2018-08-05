@@ -1,0 +1,44 @@
+solrservice
+├── libs
+│   ├── LIRE-1.0_b04.jar
+│   └── LireSolr-6.4.0_b01.jar
+├── pom.xml
+├── README.md
+├── solrservice.iml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── pingan
+│   │   │           ├── servlet
+│   │   │           │   ├── ImgAddServlet.java
+│   │   │           │   ├── ImgDeleteServlet.java
+│   │   │           │   └── ImgRepeatServlet.java
+│   │   │           └── utils
+│   │   │               ├── ImgUtil.java
+│   │   │               ├── ServletUtil.java
+│   │   │               └── SolrUtil.java
+│   │   ├── resources
+│   │   │   ├── config.properties
+│   │   │   ├── sql.md
+│   │   │   └── testcase.md
+│   │   └── webapp
+│   │       └── WEB-INF
+│   │           └── web.xml
+│   └── test
+│       └── java
+│           ├── file
+│           │   ├── TestFileAPI.java
+│           │   └── TestUUID.java
+│           ├── jdbc
+│           │   └── TestJDBC.java
+│           ├── json
+│           │   ├── TestJSONArray.java
+│           │   └── TestURLEncode.java
+│           ├── solr
+│           │   ├── TestNetRequest.java
+│           │   ├── TestSolrQuery.java
+│           │   └── TestSolrUpdate.java
+│           └── solrlire
+│               └── TestIndexer.java
+└── structure.txt
