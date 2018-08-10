@@ -3,16 +3,49 @@
 """
 import sys
 import time
+import os
 
 import argparse
+from PIL import Image
 import numpy as np
 import tensorflow as tf
 from grpc.beta import implementations
-from keras.applications.vgg16 import preprocess_input
-from keras.preprocessing import image
 from tensorflow_serving.apis import predict_pb2
 from tensorflow_serving.apis import prediction_service_pb2
 
+def load_img(path, grayscale=False, target_size=None, interpolation='nearest'):
+  if pil_image is None:
+    raise ImportError('Could not import PIL.Image. '
+                      'The use of `array_to_img` requires PIL.')
+  img = pil_image.open(path)
+  if img.mode != 'RGB':
+      img = img.convert('RGB')
+  if target_size is not None:
+    width_height_tuple = (target_size[1], target_size[0])
+    resample = pil_image.NEAREST
+    img = img.resize(width_height_tuple, resample)
+  return img
+
+def img_to_array(img, data_format='channels_last'):
+  x = np.asarray(img, dtype=np.float32)
+  return x
+
+def _preprocess_numpy_input(x,data_format,mode):
+    x = x[::-1, ...]
+    mean = [103.939, 116.779, 123.68]
+    std = None
+    # Zero-center by mean pixel
+    x[0, :, :] -= mean[0]
+    x[1, :, :] -= mean[1]
+    x[2, :, :] -= mean[2]
+    return x
+
+def preprocess_input(x, data_format=None, mode='caffe'):
+    data_format == 'channels_first'
+    if isinstance(x, np.ndarray):
+        return _preprocess_numpy_input(x, data_format=data_format, mode=mode)
+    else:
+        return _preprocess_symbolic_input(x, data_format=data_format, mode=mode)
 
 def main(args):
     server = args.server
@@ -37,8 +70,8 @@ def predict(image_path, stub, model_name, signature_name):
     request.model_spec.name = model_name
     request.model_spec.signature_name = signature_name
 
-    img = image.load_img(image_path, target_size=(224, 224))
-    x = image.img_to_array(img)
+    img = load_img(image_path, target_size=(224, 224))
+    x = img_to_array(img)
     x = np.expand_dims(x, axis=0)
     x = preprocess_input(x)
 

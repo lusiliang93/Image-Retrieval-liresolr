@@ -9,7 +9,7 @@ from keras.applications.vgg16 import VGG16
 from tensorflow.python.saved_model import builder as saved_model_builder
 from tensorflow.python.saved_model import tag_constants
 
-saved_model_dir = os.path.join('/home/liuhy/Data/cv-projects/ImageRetrival/serving/saved_model', str(1))
+saved_model_dir = os.path.join('saved_model', str(1))
 if os.path.exists(saved_model_dir):
     shutil.rmtree(saved_model_dir)
 
